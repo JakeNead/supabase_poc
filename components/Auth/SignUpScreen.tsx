@@ -1,23 +1,23 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 
-export default function SignInScreen({ navigation }) {
+export default function SignUpScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleLogin = () => {
-    // Handle login logic here
-    Alert.alert("Login", `Email: ${email}\nPassword: ${password}`);
-  };
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSignUp = () => {
-    // Navigate to the sign-up screen
-    navigation.navigate("SignUp");
+    if (password !== confirmPassword) {
+      Alert.alert("Error", "Passwords do not match");
+      return;
+    }
+    // Handle sign-up logic here
+    Alert.alert("Sign Up", `Email: ${email}\nPassword: ${password}`);
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sign In</Text>
+      <Text style={styles.title}>Sign Up</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -33,8 +33,18 @@ export default function SignInScreen({ navigation }) {
         onChangeText={setPassword}
         secureTextEntry
       />
-      <Button title="Login" onPress={handleLogin} />
+      <TextInput
+        style={styles.input}
+        placeholder="Confirm Password"
+        value={confirmPassword}
+        onChangeText={setConfirmPassword}
+        secureTextEntry
+      />
       <Button title="Sign Up" onPress={handleSignUp} />
+      <Button
+        title="Back to Sign In"
+        onPress={() => navigation.navigate("SignInScreen")}
+      />
     </View>
   );
 }
